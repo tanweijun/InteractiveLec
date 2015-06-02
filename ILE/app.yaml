@@ -20,7 +20,7 @@ handlers:
 
 # Handler for front page
 - url: /
-  script: ILE.app
+  script: ile.app
 
 libraries:
 - name: jinja2
