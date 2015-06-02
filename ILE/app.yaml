@@ -21,7 +21,11 @@ handlers:
 # Handler for front page
 - url: /
   script: ile.app
-
+  
+# All other pages
+- url: /.*
+  script: ile.app
+  
 libraries:
 - name: jinja2
   version: latest
