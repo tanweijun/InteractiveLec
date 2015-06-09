@@ -45,12 +45,12 @@ class ChatsRequestHandler(BaseHandler):
 	
 		return self.generate('chats.html', template_values)
       
-	def getChats(self, _use_Cache=True):
-		if _use_Cache is False:
-			chats = self.renderChats()
-			if not memcache.set("chat", chats, 60):
-				logging.error("Memcache set failed:")
-			return chats
+	def getChats(self):#, _use_Cache=True):
+		#if _use_Cache is False:
+		#	chats = self.renderChats()
+		#	if not memcache.set("chat", chats, 60):
+		#		logging.error("Memcache set failed:")
+		#	return chats
       
 		chats = memcache.get("chats")
 	
@@ -58,8 +58,8 @@ class ChatsRequestHandler(BaseHandler):
 			return chats
 		else:
 			chats = self.renderChats()
-			if not memcache.set("chat", chats, 60):
-				logging.error("Memcache set failed:")
+		#	if not memcache.set("chat", chats, 60):
+		#		logging.error("Memcache set failed:")
 			return chats
     
 	def get(self):
@@ -70,7 +70,7 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog.content = self.request.get('content')
 		chatLog.put()
     
-		self.getChats(False)		
+		self.getChats()#False)		
 		
 		
 app = webapp2.WSGIApplication([
