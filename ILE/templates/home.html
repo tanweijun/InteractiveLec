@@ -2,18 +2,49 @@
 <html>
     <head>
 		<title> Interactive Lecture Enviro </title>
-		 <!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		 <!-- Latest compiled and minified Bootstrap CSS -->
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+		<!-- theme -->
+		<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
+		<!-- jquery, put before bootstrap.min.js for minimized window's navbar menu to work-->
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<!-- Latest compiled and minified Bootstrap JavaScript -->
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+		<!-- for chat -->
+		<script src="../scripts/util.js"></script>
 
-		<!-- Optional theme -->
-		<link type="text/css" rel="stylesheet" href="../stylesheets/main.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>	
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+		<script>
+			function updateChat() {
+				downloadUrl("/getchats", "GET", null, onChatsReturned);
+			}
+			
+			function sendChat(form) {
+				if(document.getElementById("chatAuthor").value == ""){
+					document.getElementById("chatAuthor").value="Anonymous" + (Math.floor(Math.random()*10000));
+				}
+				downloadUrl("/getchats", "POST", "content=" + encodeURI(document.getElementById("chatAuthor").value) +": "+ encodeURI(document.getElementById("chatText").value), onChatsReturned);
+				document.getElementById("chatText").value = "";
+			}
+
+			function onChatsReturned(responseText) {
+				document.getElementById("chats").innerHTML = responseText;
+				scrollToBottom();
+			}
+
+			function setup() {
+				window.setInterval("updateChat()", 3000)
+				updateChat();
+			}
+			
+			function scrollToBottom() {
+				var chatDiv = document.getElementById("chats");
+				chatDiv.scrollTop = chatDiv.scrollHeight;
+			}
+		</script>
+		
     </head>
-	<body>
+	<body onload="setup()">
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -44,10 +75,42 @@
 
 		<div class="well col-xs-8 pull-left">
 			<h2>This is test</h2>
+			</br>
+			</br>
+			</br>To
+			</br>
+			</br>
+			</br>xv
+			</br>simulate
+			</br>dfgdg
+			</br>
+			</br>a
+			</br>xgfb
+			</br>
+			</br>
+			</br>long
+			</br>dg
+			</br>page
+			</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+			test!!
 		</div>
-
-		<div class="well col-xs-4 pull-right">
-			Hey
-		</div>
+	
+		<!-- shoutbox -->
+		<div class="well col-xs-4 pull-right" style="height:768px">
+			<h4><strong>Lecture ShoutBox</strong></h4>
+			<div id="chats" style="padding:5px; border: 1px solid grey; background-color:#F5FFFA; height:84%; width:100%; word-wrap:break-word; overflow-y:scroll">
+			</div>
+			<br/>
+			<div>
+				<form action="javascript:sendChat()">
+					<div>	
+						<input name="name" type="text" id="chatAuthor" style="width:90%" placeholder="Name"></input>
+						<input name="content" type="text" id="chatText" style="width:75%" placeholder="Message"></input>
+						<input type="submit" value="Go">
+					</div>
+				</form>
+			</div>
+		</div>	<!--end shoutbox-->
+		
 	</body>
 </html>
