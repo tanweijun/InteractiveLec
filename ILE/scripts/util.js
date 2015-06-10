@@ -5,16 +5,16 @@
 * @return {XMLHttpRequest|Null}
 */
 function createXmlHttpRequest() {
- try {
-   if (typeof ActiveXObject != 'undefined') {
-     return new ActiveXObject('Microsoft.XMLHTTP');
-   } else if (window["XMLHttpRequest"]) {
-     return new XMLHttpRequest();
-   }
- } catch (e) {
-   changeStatus(e);
- }
- return null;
+	try {
+		if (typeof ActiveXObject != 'undefined') {
+			return new ActiveXObject('Microsoft.XMLHTTP');
+		}else if (window["XMLHttpRequest"]) {
+			return new XMLHttpRequest();
+		}
+	} catch (e) {
+		changeStatus(e);
+	}
+	return null;
 };
 
 /**
@@ -25,41 +25,41 @@ function createXmlHttpRequest() {
 * @param {Function} callback The function to call once retrieved.
 */
 function downloadUrl(url, type, data, callback) {
- var status = -1;
- var request = createXmlHttpRequest();
- if (!request) {
-   return false;
- }
+	var status = -1;
+	var request = createXmlHttpRequest();
+	if (!request) {
+		return false;
+	}
 
- request.onreadystatechange = function() {
-   if (request.readyState == 4) {
-     try {
-       status = request.status;
-     } catch (e) {
-       // Usually indicates request timed out in FF.
-     }
-     if (status == 200) {
-       callback(request.responseText);
-       request.onreadystatechange = function() {};
-     }
-   }
- }
- request.open(type, url, true);
- if (type == "POST") {
-  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  request.setRequestHeader("Content-length", data.length);
-  request.setRequestHeader("Connection", "close"); 
- }
+	request.onreadystatechange = function() {
+		if (request.readyState == 4) {
+			try {
+				status = request.status;
+			} catch (e) {
+			// Usually indicates request timed out in FF.
+			}
+			if (status == 200) {
+				callback(request.responseText);
+				request.onreadystatechange = function() {};
+			}
+		}
+	}
+	request.open(type, url, true);
+	if (type == "POST") {
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		request.setRequestHeader("Content-length", data.length);
+		request.setRequestHeader("Connection", "close"); 
+	}
 
- try {
-   request.send(data);
- } catch (e) {
-   changeStatus(e);
- }
+	try {
+		request.send(data);
+	} catch (e) {
+		changeStatus(e);
+	}
 };
 
 function downloadScript(url) {
-  var script = document.createElement('script');
-  script.src = url;
-  document.body.appendChild(script);
+	var script = document.createElement('script');
+	script.src = url;
+	document.body.appendChild(script);
 }
