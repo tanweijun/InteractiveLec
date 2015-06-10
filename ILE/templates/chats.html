@@ -3,9 +3,9 @@
 	<div style="display:none">({{ entries.date.strftime('%H:%M UTC') }})</div>
 	<!--'%Y-%b-%d / %H:%M:%S:%f' time is based on gae, UTC time-->
 	
-    <!--{% if entries.author %}
-		<b>{{ entries.author }}</b>
-    {% else %}
+    <!--{% if entries.author %}-->
+		<b style="color:#63B8FF">{{ entries.author }}</b>:
+    <!--{% else %}
 		Anonymous:
     {% endif %}-->
     {{ entries.content|escape }}

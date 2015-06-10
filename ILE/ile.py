@@ -28,7 +28,7 @@ class AboutPage(BaseHandler):
         self.generate('about.html', {});
 
 class ChatLog(ndb.Model):
-	#author = ndb.UserProperty()
+	author = ndb.StringProperty()
 	content = ndb.StringProperty()
 	date = ndb.DateTimeProperty(auto_now_add=True)
 		
@@ -68,6 +68,7 @@ class ChatsRequestHandler(BaseHandler):
 	def post(self):
 		chatLog = ChatLog()
 		chatLog.content = self.request.get('content')
+		chatLog.author = self.request.get('author')
 		chatLog.put()
     
 		self.getChats()#False)		
