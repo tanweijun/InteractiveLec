@@ -3,10 +3,11 @@ import webapp2
 import jinja2
 import os
 import datetime
+from datetime import timedelta
 
 from google.appengine.ext import ndb
-#from google.appengine.api import users
 from google.appengine.api import memcache
+#from google.appengine.api import users
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates"))
@@ -30,7 +31,7 @@ class AboutPage(BaseHandler):
 class ChatLog(ndb.Model):
 	author = ndb.StringProperty()
 	content = ndb.StringProperty()
-	date = ndb.DateTimeProperty(auto_now_add=True)
+	date = ndb.DateTimeProperty()
 		
 class ChatsRequestHandler(BaseHandler):
 	def renderChats(self):
@@ -45,21 +46,13 @@ class ChatsRequestHandler(BaseHandler):
 	
 		return self.generate('chats.html', template_values)
       
-	def getChats(self):#, _use_Cache=True):
-		#if _use_Cache is False:
-		#	chats = self.renderChats()
-		#	if not memcache.set("chat", chats, 60):
-		#		logging.error("Memcache set failed:")
-		#	return chats
-      
+	def getChats(self):
 		chats = memcache.get("chats")
 	
 		if chats is not None:
 			return chats
 		else:
 			chats = self.renderChats()
-		#	if not memcache.set("chat", chats, 60):
-		#		logging.error("Memcache set failed:")
 			return chats
     
 	def get(self):
@@ -69,9 +62,11 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog = ChatLog()
 		chatLog.content = self.request.get('content')
 		chatLog.author = self.request.get('author')
+		#Add 8 hours to UTC time for our timezone(GMT+8)
+		chatLog.date = datetime.datetime.now() + datetime.timedelta(hours=8)
 		chatLog.put()
-    
-		self.getChats()#False)		
+
+		self.getChats()	
 		
 		
 app = webapp2.WSGIApplication([

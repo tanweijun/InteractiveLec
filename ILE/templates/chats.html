@@ -1,13 +1,7 @@
 {% for entries in chats %}
     <div> 
-	<div style="display:none">({{ entries.date.strftime('%H:%M UTC') }})</div>
-	<!--'%Y-%b-%d / %H:%M:%S:%f' time is based on gae, UTC time-->
-	
-    <!--{% if entries.author %}-->
+		<div style="display:inline; color:#63B8FF">{{ entries.date.strftime('%a %H:%M') }} - </div>
 		<b style="color:#63B8FF">{{ entries.author }}</b>:
-    <!--{% else %}
-		Anonymous:
-    {% endif %}-->
-    {{ entries.content|escape }}
+		{{ entries.content|escape }}
     </div> 
 {% endfor %}

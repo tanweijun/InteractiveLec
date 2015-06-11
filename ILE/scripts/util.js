@@ -36,7 +36,7 @@ function downloadUrl(url, type, data, callback) {
 			try {
 				status = request.status;
 			} catch (e) {
-			// Usually indicates request timed out in FF.
+			// Usually indicates request timed out.
 			}
 			if (status == 200) {
 				callback(request.responseText);
