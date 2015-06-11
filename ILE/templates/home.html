@@ -20,7 +20,7 @@
 			
 			function sendChat(form) {
 				if(document.getElementById("chatAuthor").value == ""){
-					document.getElementById("chatAuthor").value="No-Name" + (Math.floor(Math.random()*10000));
+					document.getElementById("chatAuthor").value="Name" + (Math.floor(Math.random()*10000));
 				}
 				<!-- the ; combining the 2 cannot have space after it-->
 				downloadUrl("/getchats", "POST", "content=" + encodeURI(document.getElementById("chatText").value) + ";" + "author=" + encodeURI(document.getElementById("chatAuthor").value), onChatsReturned);
