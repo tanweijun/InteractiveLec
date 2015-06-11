@@ -29,11 +29,11 @@
 
 			function onChatsReturned(responseText) {
 				document.getElementById("chats").innerHTML = responseText;
-				scrollToBottom();
+				<!--scrollToBottom();-->
 			}
 
 			function setup() {
-				window.setInterval("updateChat()", 3000)
+				window.setInterval("updateChat()", 500)
 				updateChat();
 			}
 			
@@ -73,7 +73,7 @@
 		</nav>
 		
 
-		<div class="well col-xs-8 pull-left">
+		<div class="well col-xs-9 pull-left">
 			<h2>This is test</h2>
 			</br>
 			</br>
@@ -96,20 +96,19 @@
 		</div>
 	
 		<!-- shoutbox -->
-		<div class="well col-xs-4 pull-right" style="height:768px">
+		<div class="well col-xs-3 pull-right" style="height:900px">
 			<h4><strong>Lecture ShoutBox</strong></h4>
-			<div id="chats" style="padding:5px; border: 1px solid grey; background-color:#F5FFFA; height:84%; width:100%; word-wrap:break-word; overflow-y:scroll">
-			</div>
-			<br/>
 			<div>
 				<form action="javascript:sendChat()">
 					<div>	
-						<input name="name" type="text" id="chatAuthor" style="width:75%" placeholder="Name"></input>
-						<input name="content" type="text" id="chatText" style="width:75%" placeholder="Message"></input>
+						<input name="name" type="text" id="chatAuthor" style="width:90%" placeholder="Name"></input>
+						<input name="content" type="text" id="chatText" style="width:90%" placeholder="Message"></input>
 						<input type="submit" value="Go">
 					</div>
 				</form>
 			</div>
+			<br/>
+			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#F5FFFA; height:84%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
 		</div>	<!--end shoutbox-->
 		
 	</body>

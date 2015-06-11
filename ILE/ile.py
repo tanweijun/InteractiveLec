@@ -38,8 +38,9 @@ class ChatsRequestHandler(BaseHandler):
 		#ndb query order by date in ChatLog
 		chatLog_query = ChatLog.query().order(-ChatLog.date)
 		#reverse the fetched content to print latest chats later from bottom to top
-		chats = reversed(chatLog_query.fetch(60))
-
+		#chats = reversed(chatLog_query.fetch(60))
+		chats = (chatLog_query.fetch(60))
+		
 		template_values = {
 			'chats': chats,
 		}

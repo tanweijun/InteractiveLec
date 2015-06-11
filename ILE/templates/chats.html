@@ -1,6 +1,9 @@
 {% for entries in chats %}
-    <div> 
-		<div style="display:inline; color:#63B8FF">{{ entries.date.strftime('%a %d/%M %H:%M') }} - </div>
+    <div style="border: 1px solid #CDC1C5"> 
+		<div class="pull-right" style="display:inline; color:#C1CDCD; font-size:0.8em">
+			{{ entries.date.strftime('%a, %d %b %y, %H:%M') }}
+		</div>
+		</br>
 		<b style="color:#63B8FF">{{ entries.author }}</b>:
 		{{ entries.content|escape }}
     </div> 
