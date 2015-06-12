@@ -4,8 +4,8 @@ import jinja2
 import os
 import datetime
 from datetime import timedelta
-import pytz
-from pytz import timezone
+#import pytz
+#from pytz import timezone
 
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
@@ -33,6 +33,7 @@ class AboutPage(BaseHandler):
 class ChatLog(ndb.Model):
 	author = ndb.StringProperty()
 	content = ndb.StringProperty()
+	question = ndb.StringProperty()
 	date = ndb.DateTimeProperty()
 		
 class ChatsRequestHandler(BaseHandler):
@@ -63,6 +64,7 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog = ChatLog()
 		chatLog.content = self.request.get('content')
 		chatLog.author = self.request.get('author')
+		chatLog.question = self.request.get('question')
 		#Add 8 hours to UTC time for our timezone(GMT+8)
 		chatLog.date = datetime.datetime.now() + datetime.timedelta(hours=8)
 		"""

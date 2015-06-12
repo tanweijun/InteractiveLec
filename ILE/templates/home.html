@@ -22,24 +22,18 @@
 				if(document.getElementById("chatAuthor").value == ""){
 					document.getElementById("chatAuthor").value="Name" + (Math.floor(Math.random()*10000));
 				}
-				<!-- the ; combining the 2 cannot have space after it-->
-				downloadUrl("/getchats", "POST", "content=" + encodeURI(document.getElementById("chatText").value) + ";" + "author=" + encodeURI(document.getElementById("chatAuthor").value), onChatsReturned);
+				<!-- note: the ; combining the data cannot have space after it-->
+				downloadUrl("/getchats", "POST", "content=" + encodeURI(document.getElementById("chatText").value) + ";" + "author=" + encodeURI(document.getElementById("chatAuthor").value)+ ";" + "question=" + encodeURI(document.getElementById("questiontype").checked), onChatsReturned);
 				document.getElementById("chatText").value = "";
 			}
 
 			function onChatsReturned(responseText) {
 				document.getElementById("chats").innerHTML = responseText;
-				<!--scrollToBottom();-->
 			}
 
 			function setup() {
 				window.setInterval("updateChat()", 500)
 				updateChat();
-			}
-			
-			function scrollToBottom() {
-				var chatDiv = document.getElementById("chats");
-				chatDiv.scrollTop = chatDiv.scrollHeight;
 			}
 		</script>
 		
@@ -96,11 +90,13 @@
 		</div>
 	
 		<!-- shoutbox -->
-		<div class="well col-xs-3 pull-right" style="height:900px">
+		<div class="well col-xs-3 pull-right" style="height:768px">
 			<h4><strong>Lecture ShoutBox</strong></h4>
 			<div>
 				<form action="javascript:sendChat()">
 					<div>	
+						<input name="question" type="radio" id="chattype" checked>Chat</input>
+						<input name="question" type="radio" id="questiontype"><span style="color:#DC143C">Question</span></input>
 						<input name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name"></input>
 						<input name="content" type="text" id="chatText" style="width:80%" placeholder="Message"></input>
 						<input type="submit" value="Go">
@@ -108,7 +104,7 @@
 				</form>
 			</div>
 			<br/>
-			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#F5FFFA; height:84%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
+			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#F5FFFA; height:75%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
 		</div>	<!--end shoutbox-->
 		
 	</body>
