@@ -8,8 +8,8 @@ from datetime import timedelta
 #from pytz import timezone
 
 from google.appengine.ext import ndb
-from google.appengine.api import memcache
-#from google.appengine.api import users
+#from google.appengine.api import memcache
+
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates"))
@@ -49,13 +49,14 @@ class ChatsRequestHandler(BaseHandler):
 		return self.generate('chats.html', template_values)
       
 	def getChats(self):
+		"""
 		chats = memcache.get("chats")
-	
 		if chats is not None:
 			return chats
 		else:
-			chats = self.renderChats()
-			return chats
+		"""
+		chats = self.renderChats()
+		return chats
     
 	def get(self):
 		self.getChats()

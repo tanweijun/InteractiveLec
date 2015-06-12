@@ -2,14 +2,11 @@
     <div style="border: 1px solid #CDC1C5">
 		{% if entries.question == "true" %}
 			<div class="pull-left"><span class="label label-danger">Question</span></div>
-			<div class="pull-right" style="display:inline; color:#C1CDCD; font-size:0.8em">
-				{{ entries.date.strftime('%a, %d %b %y, %H:%M') }}
-			</div>
 		{% else %}
-			<div class="pull-right" style="display:inline; color:#C1CDCD; font-size:0.8em">
-				{{ entries.date.strftime('%a, %d %b %y, %H:%M') }}
-			</div>
 		{% endif %}
+		<div class="pull-right" style="display:inline; color:#C1CDCD; font-size:0.8em">
+			{{ entries.date.strftime('%a, %d %b %y, %H:%M') }}
+		</div>
 		</br>
 		<b style="color:#63B8FF">{{ entries.author }}</b>:
 		{{ entries.content|escape }}
