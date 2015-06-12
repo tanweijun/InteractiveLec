@@ -4,6 +4,8 @@ import jinja2
 import os
 import datetime
 from datetime import timedelta
+import pytz
+from pytz import timezone
 
 from google.appengine.ext import ndb
 from google.appengine.api import memcache
@@ -37,8 +39,6 @@ class ChatsRequestHandler(BaseHandler):
 	def renderChats(self):
 		#ndb query order by date in ChatLog
 		chatLog_query = ChatLog.query().order(-ChatLog.date)
-		#reverse the fetched content to print latest chats later from bottom to top
-		#chats = reversed(chatLog_query.fetch(60))
 		chats = (chatLog_query.fetch(60))
 		
 		template_values = {
@@ -65,6 +65,14 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog.author = self.request.get('author')
 		#Add 8 hours to UTC time for our timezone(GMT+8)
 		chatLog.date = datetime.datetime.now() + datetime.timedelta(hours=8)
+		"""
+		current = datetime.datetime.now()
+		#Returns County code like SG, IN etc.
+		county_code = self.request.headers['X-Appengine-Country']
+		tz = pytz.country_timezones(county_code)
+		current = current.replace(tzinfo=pytz.utc).astimezone(tz)
+		chatLog.date = current
+		"""
 		chatLog.put()
 
 		self.getChats()	
