@@ -28,7 +28,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li><a href="/">Home</a></li>
-						<li class="active"><a href="/about">About <span class="sr-only">(current)</span></a></li>
+						<li class="active"><a href="/upload">Upload <span class="sr-only">(current)</span></a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<p class="navbar-text navbar-right">Testing<a href="#" class="navbar-link">Test</a></p>
@@ -38,12 +38,28 @@
 			</div><!-- /.container-fluid -->
 		</nav>
 		
-
-		<div class="well col-xs-12 pull-left">
-			<h2>This webapp is created for NUS Orbital program 2015!</h2>
+		<!-- Error message -->
+		{% if error != "" %}
+			<div style="color:red"> {{ error }} </div>
+		{% elif success != "" %}
+			<div style="color:green"> {{ success }} </div>
+		{% endif %}
+		<div class="well col-xs-12 pull-left" style="text-align:center">
+			<form action="/upload" method="post">
+				<fieldset>
+					<div class="row-fluid">
+						<h3><strong> Upload File to Server : </strong></h3>
+						Module Code:</br><input class="input-xlarge" type="text" name="modCode" placeholder="PC1222, CS1010, etc" style="width:30%" autofocus=True required=True>
+						</br></br>
+						File Url:</br><input class="input-xlarge" type="text" name="fileUrl" placeholder="http://samplepdf.com/sample.pdf" style="width:30%" required=True>
+						</br></br>
+						File Description:</br><input class="input-xlarge" type="text" name="desc" placeholder="PC1222 Lecture X Slides" style="width:30%" required=True>
+						</br></br>
+						<p><input type="submit" value="Submit">
+					</div>
+				</fieldset>
+			</form>
 		</div>
-
-
 		
 	</body>
 </html>

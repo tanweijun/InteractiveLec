@@ -8,6 +8,7 @@ from datetime import timedelta
 #from pytz import timezone
 
 from google.appengine.ext import ndb
+from urlparse import urlparse
 #from google.appengine.api import memcache
 
 
@@ -23,13 +24,57 @@ class BaseHandler(webapp2.RequestHandler):
 class HomePage(BaseHandler):
     # Handler for the home page.
 	def get(self):
-		self.generate('home.html', {});
+		self.generate('home.html', {})
 		
-class AboutPage(BaseHandler):
-    # Handler for the about page.
-    def get(self):
-        self.generate('about.html', {});
+class Files(ndb.Model):
+	modCode = ndb.StringProperty()
+	description = ndb.TextProperty()
+	fileUrl = ndb.StringProperty()
+	date = ndb.DateTimeProperty()
+	
+class Upload(BaseHandler):
+	def get(self, template_values={}):
+		self.generate('upload.html', template_values)
 
+	def post(self):
+		file = Files()
+		error = ''
+		success = ''
+		try:
+			file.modCode = self.request.get('modCode')
+		except Exception, e:
+			error = error + 'Error: Problem with Module Code.'
+		try:
+			file.description = self.request.get('desc')
+		except Exception, e:
+			error = error + 'Error: Problem with file Description.'
+		try:
+			file.fileUrl = self.request.get('fileUrl')
+			# Check that file url scheme is http or https
+			if (urlparse(file.fileUrl).scheme != 'http') and (urlparse(file.fileUrl).scheme != 'https'):
+				error = error + 'Error: Url must be http or https.'
+		except Exception, e:
+			error = error + 'Error: Problem with file URL.'
+			
+		#Add 8 hours to UTC time for our timezone(GMT+8)
+		file.date = datetime.datetime.now() + datetime.timedelta(hours=8)
+		
+		# No error case
+		if error == '':
+			file.put()
+			success = 'File uploaded successfully.'
+			template_values = {
+				'error': error,
+                'success': success,
+            }
+			self.get(template_values)
+		else:
+			template_values = {
+                'error': error,
+				'success': success,
+            }
+			self.get(template_values)
+	
 class ChatLog(ndb.Model):
 	author = ndb.StringProperty()
 	content = ndb.StringProperty()
@@ -46,7 +91,7 @@ class ChatsRequestHandler(BaseHandler):
 			'chats': chats,
 		}
 	
-		return self.generate('chats.html', template_values)
+		self.generate('chats.html', template_values)
       
 	def getChats(self):
 		"""
@@ -77,13 +122,12 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog.date = current
 		"""
 		chatLog.put()
-
 		self.getChats()	
 		
 		
 app = webapp2.WSGIApplication([
-    ("/", HomePage),
-	("/about", AboutPage),
+    ('/', HomePage),
+	('/upload', Upload),
 	('/getchats', ChatsRequestHandler)], 
 	debug=True)
 	
