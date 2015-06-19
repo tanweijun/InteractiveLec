@@ -4,8 +4,6 @@ import jinja2
 import os
 import datetime
 from datetime import timedelta
-#import pytz
-#from pytz import timezone
 
 from google.appengine.ext import ndb
 from urlparse import urlparse
@@ -124,10 +122,24 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog.put()
 		self.getChats()	
 		
+class SearchHandler(BaseHandler):
+	def post(self):
+		#ndb query order by date
+		target = self.request.get('modcode').upper()
+		files = Files.query(Files.modCode == target).order(-Files.date)
+		
+		template_values = {
+			'modCode': target,
+			'files': files,
+		}
+	
+		self.generate('searchresults.html', template_values)
+	
 		
 app = webapp2.WSGIApplication([
     ('/', HomePage),
 	('/upload', Upload),
-	('/getchats', ChatsRequestHandler)], 
+	('/getchats', ChatsRequestHandler),
+	('/getfiles', SearchHandler)], 
 	debug=True)
 	

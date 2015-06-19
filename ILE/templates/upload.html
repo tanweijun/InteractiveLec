@@ -38,24 +38,27 @@
 			</div><!-- /.container-fluid -->
 		</nav>
 		
-		<!-- Error message -->
-		{% if error != "" %}
-			<div style="color:red"> {{ error }} </div>
-		{% elif success != "" %}
-			<div style="color:green"> {{ success }} </div>
-		{% endif %}
-		<div class="well col-xs-12 pull-left" style="text-align:center">
+		
+		<div class="well col-xs-12 pull-left form-group" style="text-align:center">
 			<form action="/upload" method="post">
 				<fieldset>
 					<div class="row-fluid">
 						<h3><strong> Upload File to Server : </strong></h3>
-						Module Code:</br><input class="input-xlarge" type="text" name="modCode" placeholder="PC1222, CS1010, etc" style="width:30%" autofocus=True required=True>
+						Module Code:</br><input type="text" name="modCode" placeholder="PC1222, CS1010, etc" style="width:30%; border-radius:5px;" autofocus=True required=True>
 						</br></br>
-						File Url:</br><input class="input-xlarge" type="text" name="fileUrl" placeholder="http://samplepdf.com/sample.pdf" style="width:30%" required=True>
+						File Url:</br><input type="text" name="fileUrl" placeholder="http://samplepdf.com/sample.pdf" style="width:30%; border-radius:5px;" required=True>
 						</br></br>
-						File Description:</br><input class="input-xlarge" type="text" name="desc" placeholder="PC1222 Lecture X Slides" style="width:30%" required=True>
+						File Description:</br><input type="text" name="desc" placeholder="PC1222 Lecture X Slides" style="width:30%; border-radius:5px" required=True>
 						</br></br>
-						<p><input type="submit" value="Submit">
+						<p><button type="submit" class="btn btn-default btn-sm">Submit</button>
+						<div>
+						<!-- Error message -->
+						{% if error != "" %}
+							<div style="color:red"> {{ error }} </div>
+						{% elif success != "" %}
+							<div style="color:green"> {{ success }} </div>
+						{% endif %}
+						</div>
 					</div>
 				</fieldset>
 			</form>

@@ -1,0 +1,22 @@
+
+<div class="table-responsive">
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr><h3>Module Code {{ modCode }}</h3></tr>
+			<tr>
+				<th>File Description</th>
+				<th>File URL</th>
+				<th>Date Uploaded</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for results in files %}
+				<tr align="left">
+					<td >{{ results.description }}</td>
+					<td>{{ results.fileUrl }}</td>
+					<td>{{ results.date.strftime('%a  %d %b %Y  %H:%M') }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div> 

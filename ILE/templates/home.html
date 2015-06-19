@@ -14,6 +14,7 @@
 		<script src="../scripts/util.js"></script>
 
 		<script>
+			<!-- For Shoutbox -->
 			function updateChat() {
 				downloadUrl("/getchats", "GET", null, onChatsReturned);
 			}
@@ -34,6 +35,16 @@
 			function setup() {
 				window.setInterval("updateChat()", 500)
 				updateChat();
+			}
+			
+			<!-- For Viewer -->
+			function searchByMod(form) {
+				downloadUrl("/getfiles", "POST", "modcode=" + encodeURI(document.getElementById("modcode").value), onDataReturned);
+				document.getElementById("modcode").value = "";
+			}
+			
+			function onDataReturned(response) {
+				document.getElementById("files").innerHTML = response;
 			}
 		</script>
 		
@@ -66,13 +77,21 @@
 			</div><!-- /.container-fluid -->
 		</nav>
 		
-
-		<div class="well col-xs-9 pull-left" style="height:768px">
-			<iframe src="http://docs.google.com/gview?url=http://samplepdf.com/sample.pdf&embedded=true" style="height:100%;width:100%" frameborder="0"></iframe>
-		</div>
-	
+		<!-- search -->
+		<div class="well col-xs-9 pull-left" style="height:145px; text-align:center; margin-bottom:0px; padding-top:7px">
+			<form action="javascript:searchByMod()">
+				<fieldset>
+					<div class="row-fluid">
+						<h3><strong> Search by Module Code: </strong></h3>
+						<input type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; border-radius:5px;">
+						<p></p><button type="submit" class="btn btn-default btn-xs">Search</button>
+					</div>
+				</fieldset>
+			</form>
+		</div> <!-- end search -->
+		
 		<!-- shoutbox -->
-		<div class="well col-xs-3 pull-right" style="height:768px">
+		<div class="well col-xs-3 pull-right" style="height:795px">
 			<h4><strong>Lecture ShoutBox</strong></h4>
 			<div>
 				<form action="javascript:sendChat()">
@@ -86,8 +105,15 @@
 				</form>
 			</div>
 			<br/>
-			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#F5FFFA; height:75%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
+			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; height:75%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
 		</div>	<!--end shoutbox-->
+		
+		<!-- viewer -->
+		<div class="well col-xs-9 pull-left" style="height:650px; text-align:center">
+			<div id="files"></div>
+			<!--<iframe src="http://docs.google.com/gview?url=http://samplepdf.com/sample.pdf&embedded=true" style="height:100%;width:100%" frameborder="0"></iframe>-->
+		</div>	<!-- end viewer -->
+		
 		
 	</body>
 </html>
