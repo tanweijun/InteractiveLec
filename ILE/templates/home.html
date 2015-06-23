@@ -77,38 +77,49 @@
 		</nav>
 		
 		<!-- search -->
-		<div class="well col-xs-9 pull-left" style="height:145px; text-align:center; margin-bottom:0px; padding-top:7px">
-			<form action="javascript:searchByMod()">
-				<fieldset>
-					<div class="row-fluid">
-						<h3><strong> Search by Module Code: </strong></h3>
-						<input type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; border-radius:5px;">
-						<p></p><button type="submit" class="btn btn-default btn-xs">Search</button>
-					</div>
-				</fieldset>
+		<div class="well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center">
+			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
+			<form class="form-horizontal" action="javascript:searchByMod()">
+				<label class="sr-only" for="modCode">Module Code</label>
+				<input class="form-control" type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; display:inline-block">
+				<button type="submit" class="btn btn-info btn-sm">Search</button>
 			</form>
 		</div> <!-- end search -->
 		
 		<!-- shoutbox -->
-		<div class="well col-xs-3 pull-right" style="height:795px">
-			<h4><strong>Lecture ShoutBox</strong></h4>
-			<div>
-				<form action="javascript:sendChat()">
-					<div>	
-						<input name="question" type="radio" id="chattype" checked>Chat</input>
-						<input name="question" type="radio" id="questiontype"><span style="color:#DC143C">Question</span></input>
-						<input name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name"></input>
-						<input name="content" type="text" id="chatText" style="width:80%" placeholder="Message"></input>
-						<input type="submit" value="Go">
-					</div>
-				</form>
+		<div class="panel panel-info col-xs-3 pull-right" style="padding:0px; background:#F0FFFF">
+			<div class="panel-heading">
+				<h4><strong>Lecture ShoutBox</strong></h4>
 			</div>
-			<br/>
-			<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; height:75%; width:100%; word-wrap:break-word; overflow-y:scroll"></div>
-		</div>	<!--end shoutbox-->
+			<div class="panel-body">
+				<div>
+					<form action="javascript:sendChat()">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-info active">
+								<input name="question" type="radio" id="chattype" autocomplete="off">Chat
+							</label>
+							<label class="btn btn-info">
+								<input name="question" type="radio" id="questiontype" autocomplete="off">Question
+							</label>
+						</div>
+						<div class="form-group">					
+							<label class="sr-only" for="chatAuthor">Name</label>
+							<input class="form-control" name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name">
+							<div class="form-inline">
+								<label class="sr-only" for="chatText">Message</label>
+								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">
+								<button type="submit" class="btn btn-info btn-sm">Go</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<br/>
+				<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; max-height:600px; word-wrap:break-word; overflow-y:scroll;"></div>
+			</div>
+		</div> <!--end shoutbox-->
 		
 		<!-- viewer -->
-		<div class="well col-xs-9 pull-left" style="height:650px; text-align:center">
+		<div class="well col-xs-9 pull-left" style="text-align:center">
 			<div id="files"></div>
 			<!--<iframe src="http://docs.google.com/gview?url=http://samplepdf.com/sample.pdf&embedded=true" style="height:100%;width:100%" frameborder="0"></iframe>-->
 		</div>	<!-- end viewer -->

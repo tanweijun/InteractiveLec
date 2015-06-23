@@ -39,7 +39,7 @@ class Upload(BaseHandler):
 		error = ''
 		success = ''
 		try:
-			file.modCode = self.request.get('modCode')
+			file.modCode = self.request.get('modCode').upper()
 		except Exception, e:
 			error = error + 'Error: Problem with Module Code.'
 		try:
