@@ -1,7 +1,8 @@
 <html>
     <head>
-		<title> Interactive Lecture Enviro </title>
-		 <!-- Latest compiled and minified Bootstrap CSS -->
+		<title> Interactive Lecture Environment </title>
+		<!-- Latest compiled and minified Bootstrap CSS -->
+		<link rel="stylesheet" href="../stylesheets/custom.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 		<!-- theme -->
 		<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
@@ -11,7 +12,7 @@
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
     </head>
 	<body>
-		<nav class="navbar navbar-inverse">
+		<nav class="navbar navbar-custom">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -21,7 +22,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand">Interactive Lecture Enviro</a>
+					<a class="navbar-brand">Interactive Lecture Environment</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,7 +40,7 @@
 		</nav>
 		
 		
-		<div class="well col-xs-12 pull-left">
+		<div class="well col-xs-12 pull-left" style="background:#F8FFF8;">
 			<form class="form-horizontal" action="/upload" method="post">
 				<div class="form-group">
 					<h3 class="col-xs-offset-4"><strong> Upload File to Server : </strong></h3>
@@ -58,15 +59,15 @@
 				</div>
 				<div class="form-group">
 					<div class="col-xs-offset-4">
-						<button type="submit" class="btn btn-info btn-sm">Submit</button>
+						<button type="submit" class="btn btn-info btn-sm" style="background:#5CBDFF">Submit</button>
 					</div>
 				</div>
 				<div>
 				<!-- Error message -->
 				{% if error != "" %}
-					<div style="color:red"> {{ error }} </div>
+					<div style="color:red; text-align:center;"> {{ error }} </div>
 				{% elif success != "" %}
-					<div style="color:green"> {{ success }} </div>
+					<div style="color:green; text-align:center;"> {{ success }} </div>
 				{% endif %}
 				</div>
 			</form>

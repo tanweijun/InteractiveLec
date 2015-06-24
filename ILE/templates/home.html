@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<title> Interactive Lecture Enviro </title>
-		 <!-- Latest compiled and minified Bootstrap CSS -->
+		<title> Interactive Lecture Environment </title>
+		<!-- Latest compiled and minified Bootstrap CSS -->
+		<link rel="stylesheet" href="../stylesheets/custom.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 		<!-- theme -->
 		<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
@@ -49,7 +50,7 @@
 		
     </head>
 	<body onload="setup()">
-		<nav class="navbar navbar-inverse">
+		<nav class="navbar navbar-custom">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -59,7 +60,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand">Interactive Lecture Enviro</a>
+					<a class="navbar-brand" href="/">Interactive Lecture Environment</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -77,17 +78,17 @@
 		</nav>
 		
 		<!-- search -->
-		<div class="well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center">
+		<div class="well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
 			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
 			<form class="form-horizontal" action="javascript:searchByMod()">
 				<label class="sr-only" for="modCode">Module Code</label>
 				<input class="form-control" type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; display:inline-block">
-				<button type="submit" class="btn btn-info btn-sm">Search</button>
+				<button type="submit" class="btn btn-info btn-sm" style="background:#5CBDFF">Search</button>
 			</form>
 		</div> <!-- end search -->
 		
 		<!-- shoutbox -->
-		<div class="panel panel-info col-xs-3 pull-right" style="padding:0px; background:#F0FFFF">
+		<div class="panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
 			<div class="panel-heading">
 				<h4><strong>Lecture ShoutBox</strong></h4>
 			</div>
@@ -95,10 +96,10 @@
 				<div>
 					<form action="javascript:sendChat()">
 						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-info active">
+							<label class="btn btn-info active" style="background:#5CBDFF">
 								<input name="question" type="radio" id="chattype" autocomplete="off">Chat
 							</label>
-							<label class="btn btn-info">
+							<label class="btn btn-info" style="background:#FF6C6C"><!--00CD66-->
 								<input name="question" type="radio" id="questiontype" autocomplete="off">Question
 							</label>
 						</div>
@@ -108,7 +109,7 @@
 							<div class="form-inline">
 								<label class="sr-only" for="chatText">Message</label>
 								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">
-								<button type="submit" class="btn btn-info btn-sm">Go</button>
+								<button type="submit" class="btn btn-info btn-sm" style="background:#5CBDFF">Go</button>
 							</div>
 						</div>
 					</form>
@@ -119,7 +120,7 @@
 		</div> <!--end shoutbox-->
 		
 		<!-- viewer -->
-		<div class="well col-xs-9 pull-left" style="text-align:center">
+		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
 			<div id="files"></div>
 			<!--<iframe src="http://docs.google.com/gview?url=http://samplepdf.com/sample.pdf&embedded=true" style="height:100%;width:100%" frameborder="0"></iframe>-->
 		</div>	<!-- end viewer -->
