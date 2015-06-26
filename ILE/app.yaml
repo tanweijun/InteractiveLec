@@ -1,4 +1,4 @@
-application: ile
+application: ile2015-988
 version: 1
 runtime: python27
 api_version: 1
@@ -20,11 +20,11 @@ handlers:
 
 # Handler for front page
 - url: /
-  script: ile.app
+  script: ile2015-988.app
   
 # All other pages
 - url: /.*
-  script: ile.app
+  script: ile2015-988.app
   
 libraries:
 - name: jinja2
