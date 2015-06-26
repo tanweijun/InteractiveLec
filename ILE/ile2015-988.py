@@ -7,7 +7,7 @@ from datetime import timedelta
 
 from google.appengine.ext import ndb
 from urlparse import urlparse
-#from google.appengine.api import memcache
+from google.appengine.api import memcache
 
 
 jinja_environment = jinja2.Environment(
@@ -91,15 +91,21 @@ class ChatsRequestHandler(BaseHandler):
 	
 		self.generate('chats.html', template_values)
       
-	def getChats(self):
-		"""
+	def getChats(self, useCache=True):
+		if useCache is False:
+			chats = self.renderChats()
+			if not memcache.set("chat", chats, 60):
+				logging.error("Failed to set Memcache:")
+			return chats
+		
 		chats = memcache.get("chats")
 		if chats is not None:
 			return chats
 		else:
-		"""
-		chats = self.renderChats()
-		return chats
+			chats = self.renderChats()
+			if not memcache.set("chat", chats, 60):
+				logging.error("Failed to set Memcache:")
+			return chats
     
 	def get(self):
 		self.getChats()
