@@ -46,7 +46,14 @@
 			function onDataReturned(response) {
 				document.getElementById("files").innerHTML = response;
 			}
+			
+			function onURLReturned(response) {
+				document.getElementById("files").innerHTML = response;
+			}
+			
+			
 		</script>
+		
 		
     </head>
 	<body onload="setup()">
@@ -122,9 +129,13 @@
 		<!-- viewer -->
 		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
 			<div id="files"></div>
-			<!--<iframe src="http://docs.google.com/gview?url=http://samplepdf.com/sample.pdf&embedded=true" style="height:100%;width:100%" frameborder="0"></iframe>-->
 		</div>	<!-- end viewer -->
-		
-		
+		<script>
+			$('#files').on('click', '.view', function(){
+				var url = $(this).data('url');
+				console.log(url);
+				downloadUrl("/view", "POST", "url=" + url, onURLReturned);
+			});	
+		</script>	
 	</body>
 </html>

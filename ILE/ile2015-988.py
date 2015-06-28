@@ -140,12 +140,23 @@ class SearchHandler(BaseHandler):
 		}
 	
 		self.generate('searchresults.html', template_values)
+
+class ViewHandler(BaseHandler):
+	def post(self):
+		target = self.request.get('url')
+		viewer = "http://docs.google.com/gview?url=" + target + "&embedded=true"
+		
+		template_values = {
+			'url': viewer,
+		}
 	
+		self.generate('embed.html', template_values)		
 		
 app = webapp2.WSGIApplication([
     ('/', HomePage),
 	('/upload', Upload),
 	('/getchats', ChatsRequestHandler),
-	('/getfiles', SearchHandler)], 
+	('/getfiles', SearchHandler),
+	('/view', ViewHandler)], 
 	debug=True)
 	

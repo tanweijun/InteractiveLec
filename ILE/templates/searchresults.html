@@ -1,3 +1,4 @@
+
 <div class="table-responsive" style="max-height:675px">
 	<table class="table table-bordered table-hover" style="table-layout:fixed; word-wrap:break-word;">
 		<thead>
@@ -12,7 +13,11 @@
 			{% for results in files %}
 				<tr align="left">
 					<td>{{ results.description }}</td>
-					<td>{{ results.fileUrl }}</td>
+					<td>
+						{{ results.fileUrl }}
+						</br>
+						<button type="submit" data-url="{{ results.fileUrl }}" class="view btn btn-info btn-sm" style="background:#5CBDFF">View</button>
+					</td>
 					<td>{{ results.date.strftime('%a  %d %b %Y  %H:%M') }}</td>
 				</tr>
 			{% endfor %}
