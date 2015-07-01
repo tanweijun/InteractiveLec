@@ -91,20 +91,20 @@ class ChatsRequestHandler(BaseHandler):
 	
 		self.generate('chats.html', template_values)
       
-	def getChats(self, useCache=True):
-		if useCache is False:
-			chats = self.renderChats()
-			if not memcache.set("chat", chats, 60):
-				logging.error("Failed to set Memcache:")
-			return chats
+	def getChats(self):#, useCache=True):
+		#if useCache is False:
+		#	chats = self.renderChats()
+		#	if not memcache.set("chat", chats, 60):
+		#		logging.error("Failed to set Memcache:")
+		#	return chats
 		
 		chats = memcache.get("chats")
 		if chats is not None:
 			return chats
 		else:
 			chats = self.renderChats()
-			if not memcache.set("chat", chats, 60):
-				logging.error("Failed to set Memcache:")
+			#if not memcache.set("chat", chats, 60):
+			#	logging.error("Failed to set Memcache:")
 			return chats
     
 	def get(self):

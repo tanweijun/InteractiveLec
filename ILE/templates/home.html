@@ -7,7 +7,8 @@
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 		<!-- theme -->
 		<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
-		<!-- jquery, put before bootstrap.min.js for minimized window's navbar menu to work-->
+		<!-- jquery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<!-- Latest compiled and minified Bootstrap JavaScript -->
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -33,25 +34,9 @@
 			}
 
 			function setup() {
-				window.setInterval("updateChat()", 1000)
+				window.setInterval("updateChat()", 2000)
 				updateChat();
 			}
-			
-			<!-- For Viewer -->
-			function searchByMod(form) {
-				downloadUrl("/getfiles", "POST", "modcode=" + encodeURIComponent(document.getElementById("modcode").value), onDataReturned);
-				document.getElementById("modcode").value = "";
-			}
-			
-			function onDataReturned(response) {
-				document.getElementById("files").innerHTML = response;
-			}
-			
-			function onURLReturned(response) {
-				document.getElementById("files").innerHTML = response;
-			}
-			
-			
 		</script>
 		
 		
@@ -85,12 +70,12 @@
 		</nav>
 		
 		<!-- search -->
-		<div class="well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
+		<div class="search well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
 			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
-			<form class="form-horizontal" action="javascript:searchByMod()">
+			<form class="form-horizontal">
 				<label class="sr-only" for="modCode">Module Code</label>
 				<input class="form-control" type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; display:inline-block">
-				<button type="submit" class="btn btn-info btn-sm" style="background:#5CBDFF">Search</button>
+				<button type="submit" class="searchButton btn btn-info btn-sm" style="background:#5CBDFF">Search</button>
 			</form>
 		</div> <!-- end search -->
 		
@@ -130,11 +115,27 @@
 		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
 			<div id="files"></div>
 		</div>	<!-- end viewer -->
+		
 		<script>
+			<!-- search file -->
+			$('.searchButton').click(function(){
+				var input = $('#modcode').val();
+				console.log(input);
+				$.post('/getfiles', {modcode:input}).done(function(response){
+					$('#modcode').val("");
+					$('#files').html(response);
+				});
+				return false;
+			});
+
+			<!-- view file -->
 			$('#files').on('click', '.view', function(){
 				var url = $(this).data('url');
+				<!-- for troubleshooting -->
 				console.log(url);
-				downloadUrl("/view", "POST", "url=" + url, onURLReturned);
+				$.post('/view', {url:url}).done(function(response){
+					$('#files').html(response);
+				});
 			});	
 		</script>	
 	</body>
