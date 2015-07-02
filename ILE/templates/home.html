@@ -12,36 +12,8 @@
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<!-- Latest compiled and minified Bootstrap JavaScript -->
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
-		<!-- for chat -->
-		<script src="../scripts/util.js"></script>
-
-		<script>
-			<!-- For Shoutbox -->
-			function updateChat() {
-				downloadUrl("/getchats", "GET", null, onChatsReturned);
-			}
-			
-			function sendChat(form) {
-				if(document.getElementById("chatAuthor").value == ""){
-					document.getElementById("chatAuthor").value="Name" + (Math.floor(Math.random()*10000));
-				}
-				downloadUrl("/getchats", "POST", "content=" + encodeURIComponent(document.getElementById("chatText").value) + "&author=" + encodeURIComponent(document.getElementById("chatAuthor").value) + "&question=" + encodeURIComponent(document.getElementById("questiontype").checked), onChatsReturned);
-				document.getElementById("chatText").value = "";
-			}
-
-			function onChatsReturned(responseText) {
-				document.getElementById("chats").innerHTML = responseText;
-			}
-
-			function setup() {
-				window.setInterval("updateChat()", 2000)
-				updateChat();
-			}
-		</script>
-		
-		
     </head>
-	<body onload="setup()">
+	<body>
 		<nav class="navbar navbar-custom">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -80,19 +52,19 @@
 		</div> <!-- end search -->
 		
 		<!-- shoutbox -->
-		<div class="panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
+		<div class="shoutbox panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
 			<div class="panel-heading">
 				<h4><strong>Lecture ShoutBox</strong></h4>
 			</div>
 			<div class="panel-body">
 				<div>
-					<form action="javascript:sendChat()">
+					<form>
 						<div class="btn-group" data-toggle="buttons">
 							<label class="btn btn-info active" style="background:#5CBDFF">
-								<input name="question" type="radio" id="chattype" autocomplete="off">Chat
+								<input name="question" type="radio" id="chattype" autocomplete="off" checked>Chat
 							</label>
 							<label class="btn btn-info" style="background:#FF6C6C"><!--00CD66-->
-								<input name="question" type="radio" id="questiontype" autocomplete="off">Question
+								<input name="question" type="radio" id="questiontype" autocomplete="off" value="question">Question
 							</label>
 						</div>
 						<div class="form-group">					
@@ -101,7 +73,7 @@
 							<div class="form-inline">
 								<label class="sr-only" for="chatText">Message</label>
 								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">
-								<button type="submit" class="btn btn-info btn-sm" style="background:#5CBDFF">Go</button>
+								<button type="submit" class="go btn btn-info btn-sm" style="background:#5CBDFF">Go</button>
 							</div>
 						</div>
 					</form>
@@ -117,10 +89,36 @@
 		</div>	<!-- end viewer -->
 		
 		<script>
+			<!-- shoutbox ajax refresh chat -->
+			$(document).ready(function refresh(){
+				$.get('/getchats').done(function(response){
+					$('#chats').html(response);
+				});
+				setTimeout(refresh, 1500);
+			});
+			
+			<!-- shoutbox messages -->
+			$('.shoutbox').on('click', '.go', function(){
+				if(!$('#chatAuthor').val()){
+					var tempAuthor = "Name" + (Math.floor(Math.random()*10000));
+					$('#chatAuthor').val(tempAuthor);
+					var author = $('#chatAuthor').val();
+				}
+				else{
+					var author = $('#chatAuthor').val();
+				}
+				var content = $('#chatText').val();
+				var question = $('input[name=question]:checked').val();
+				$.post('/getchats', {content:content, author:author, question:question}).done(function(response){
+					$('#chats').html(response);
+				});
+				$('#chatText').val("");
+				return false
+			});
+			
 			<!-- search file -->
 			$('.searchButton').click(function(){
 				var input = $('#modcode').val();
-				console.log(input);
 				$.post('/getfiles', {modcode:input}).done(function(response){
 					$('#modcode').val("");
 					$('#files').html(response);

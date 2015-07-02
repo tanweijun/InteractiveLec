@@ -83,32 +83,14 @@ class ChatsRequestHandler(BaseHandler):
 	def renderChats(self):
 		#ndb query order by date in ChatLog
 		chatLog_query = ChatLog.query().order(-ChatLog.date)
-		chats = (chatLog_query.fetch(60))
-		
+		chats = chatLog_query.fetch(60)
 		template_values = {
 			'chats': chats,
 		}
-	
 		self.generate('chats.html', template_values)
-      
-	def getChats(self):#, useCache=True):
-		#if useCache is False:
-		#	chats = self.renderChats()
-		#	if not memcache.set("chat", chats, 60):
-		#		logging.error("Failed to set Memcache:")
-		#	return chats
-		
-		chats = memcache.get("chats")
-		if chats is not None:
-			return chats
-		else:
-			chats = self.renderChats()
-			#if not memcache.set("chat", chats, 60):
-			#	logging.error("Failed to set Memcache:")
-			return chats
     
 	def get(self):
-		self.getChats()
+		self.renderChats()
 
 	def post(self):
 		chatLog = ChatLog()
@@ -126,7 +108,7 @@ class ChatsRequestHandler(BaseHandler):
 		chatLog.date = current
 		"""
 		chatLog.put()
-		self.getChats()	
+		self.renderChats()
 		
 class SearchHandler(BaseHandler):
 	def post(self):
