@@ -40,7 +40,7 @@
 		</nav>
 		
 		<!-- search -->
-		<div class="search well col-xs-12 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
+		<div class="search well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
 			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
 			<form class="form-horizontal">
 				<label class="sr-only" for="modCode">Module Code</label>
@@ -49,12 +49,30 @@
 			</form>
 		</div> <!-- end search -->
 		
+		<!-- shoutbox -->
+		<div class="shoutbox panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
+			<div class="panel-heading">
+				<h4><strong>Lecture ShoutBox</strong></h4>
+			</div>
+			<div class="panel-body">
+				<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; max-height:900px; word-wrap:break-word; overflow-y:scroll;"></div>
+			</div>
+		</div> <!--end shoutbox-->
+		
 		<!-- viewer -->
-		<div class="well col-xs-12 pull-left" style="text-align:center; background:#F8FFF8;">
+		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
 			<div id="files"></div>
 		</div>	<!-- end viewer -->
 		
 		<script>
+			<!-- shoutbox ajax refresh chat -->
+			$(document).ready(function refresh(){
+				$.get('/getchats').done(function(response){
+					$('#chats').html(response);
+				});
+				setTimeout(refresh, 1500);
+			});
+			
 			<!-- search file -->
 			$('.searchButton').click(function(){
 				var input = $('#modcode').val();

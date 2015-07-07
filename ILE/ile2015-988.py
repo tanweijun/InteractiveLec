@@ -130,7 +130,9 @@ class ChatsRequestHandler(BaseHandler):
 		current = current.replace(tzinfo=pytz.utc).astimezone(tz)
 		chatLog.date = current
 		"""
-		chatLog.put()
+		user = users.get_current_user()
+		if user:  # signed in already
+			chatLog.put()
 		self.renderChats()
 		
 class SearchHandler(BaseHandler):
