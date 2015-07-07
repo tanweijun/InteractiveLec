@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title> Interactive Lecture Environment </title>
+		<!-- Latest compiled and minified Bootstrap CSS -->
+		<link rel="stylesheet" href="../stylesheets/custom.css">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+		<!-- theme -->
+		<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
+		<!-- jquery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<!-- Latest compiled and minified Bootstrap JavaScript -->
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+    </head>
+	<body>
+		<nav class="navbar navbar-custom">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Interactive Lecture Environment</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/home">Home <span class="sr-only">(current)</span></a></li>
+						<li><a href="/upload">Upload</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<p class="navbar-text navbar-right">Welcome, {{ user_mail }}!<a href="{{logout}}" class="navbar-link"><span style="margin: 15px;">Logout</span></a></p>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+		
+		<!-- search -->
+		<div class="search well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
+			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
+			<form class="form-horizontal">
+				<label class="sr-only" for="modCode">Module Code</label>
+				<input class="form-control" type="text" name="modCode" id="modcode" placeholder="Module Code e.g.CS3213" style="width:30%; display:inline-block">
+				<button type="submit" class="searchButton btn btn-info btn-sm" style="background:#5CBDFF">Search</button>
+			</form>
+		</div> <!-- end search -->
+		
+		<!-- shoutbox -->
+		<div class="shoutbox panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
+			<div class="panel-heading">
+				<h4><strong>Lecture ShoutBox</strong></h4>
+			</div>
+			<div class="panel-body">
+				<div>
+					<form>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-info active" style="background:#5CBDFF">
+								<input name="question" type="radio" id="chattype" autocomplete="off" checked>Chat
+							</label>
+							<label class="btn btn-info" style="background:#FF6C6C"><!--00CD66-->
+								<input name="question" type="radio" id="questiontype" autocomplete="off" value="question">Question
+							</label>
+						</div>
+						<div class="form-group">					
+							<label class="sr-only" for="chatAuthor">Name</label>
+							<input class="form-control" name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name" value="{{ user_mail }}" readonly>
+							<div class="form-inline">
+								<label class="sr-only" for="chatText">Message</label>
+								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">
+								<button type="submit" class="go btn btn-info btn-sm" style="background:#5CBDFF">Go</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<br/>
+				<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; max-height:600px; word-wrap:break-word; overflow-y:scroll;"></div>
+			</div>
+		</div> <!--end shoutbox-->
+		
+		<!-- viewer -->
+		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
+			<div id="files"></div>
+		</div>	<!-- end viewer -->
+		
+		<script>
+			<!-- shoutbox ajax refresh chat -->
+			$(document).ready(function refresh(){
+				$.get('/getchats').done(function(response){
+					$('#chats').html(response);
+				});
+				setTimeout(refresh, 1500);
+			});
+			
+			<!-- shoutbox messages -->
+			$('.shoutbox').on('click', '.go', function(){
+				if(!$('#chatAuthor').val()){
+					var tempAuthor = "Name" + (Math.floor(Math.random()*10000));
+					$('#chatAuthor').val(tempAuthor);
+					var author = $('#chatAuthor').val();
+				}
+				else{
+					var author = $('#chatAuthor').val();
+				}
+				var content = $('#chatText').val();
+				var question = $('input[name=question]:checked').val();
+				$.post('/getchats', {content:content, author:author, question:question}).done(function(response){
+					$('#chats').html(response);
+				});
+				$('#chatText').val("");
+				return false
+			});
+			
+			<!-- search file -->
+			$('.searchButton').click(function(){
+				var input = $('#modcode').val();
+				$.post('/getfiles', {modcode:input}).done(function(response){
+					$('#modcode').val("");
+					$('#files').html(response);
+				});
+				return false;
+			});
+
+			<!-- view file -->
+			$('#files').on('click', '.view', function(){
+				var url = $(this).data('url');
+				<!-- for troubleshooting -->
+				console.log(url);
+				$.post('/view', {url:url}).done(function(response){
+					$('#files').html(response);
+				});
+			});	
+		</script>	
+	</body>
+</html>

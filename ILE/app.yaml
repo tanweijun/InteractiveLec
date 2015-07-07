@@ -21,10 +21,19 @@ handlers:
 # Handler for front page
 - url: /
   script: ile2015-988.app
+
+#Handler for view
+- url: /view
+  script: ile2015-988.app
+  
+#Handler for search files
+- url: /getfiles
+  script: ile2015-988.app
   
 # All other pages
 - url: /.*
   script: ile2015-988.app
+  login: required
   
 libraries:
 - name: jinja2

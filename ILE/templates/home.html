@@ -24,25 +24,23 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Interactive Lecture Environment</a>
+					<a class="navbar-brand" href="#">Interactive Lecture Environment</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-						<li><a href="/upload">Upload</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<p class="navbar-text navbar-right">Testing<a href="#" class="navbar-link">Test</a></p>
-						<li><button type="button" class="btn btn-default navbar-btn">A BUTTON</button></li>
+						<p class="navbar-text navbar-right"><a href="/home" class="navbar-link"><span style="margin: 15px;">Sign In</span></a></p>
 					</ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
 		</nav>
 		
 		<!-- search -->
-		<div class="search well col-xs-9 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
+		<div class="search well col-xs-12 pull-left" style="margin-bottom:0px; padding-top:4px; text-align:center; background:#F8FFF8">
 			<h3 style="text-align:center"><strong> Search by Module Code: </strong></h3>
 			<form class="form-horizontal">
 				<label class="sr-only" for="modCode">Module Code</label>
@@ -51,71 +49,12 @@
 			</form>
 		</div> <!-- end search -->
 		
-		<!-- shoutbox -->
-		<div class="shoutbox panel panel-success col-xs-3 pull-right" style="padding:0px; background:#F8FFF8">
-			<div class="panel-heading">
-				<h4><strong>Lecture ShoutBox</strong></h4>
-			</div>
-			<div class="panel-body">
-				<div>
-					<form>
-						<div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-info active" style="background:#5CBDFF">
-								<input name="question" type="radio" id="chattype" autocomplete="off" checked>Chat
-							</label>
-							<label class="btn btn-info" style="background:#FF6C6C"><!--00CD66-->
-								<input name="question" type="radio" id="questiontype" autocomplete="off" value="question">Question
-							</label>
-						</div>
-						<div class="form-group">					
-							<label class="sr-only" for="chatAuthor">Name</label>
-							<input class="form-control" name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name">
-							<div class="form-inline">
-								<label class="sr-only" for="chatText">Message</label>
-								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">
-								<button type="submit" class="go btn btn-info btn-sm" style="background:#5CBDFF">Go</button>
-							</div>
-						</div>
-					</form>
-				</div>
-				<br/>
-				<div id="chats" style="padding:2px; border: 1px solid #CDC1C5; background-color:#E0EEE0; max-height:600px; word-wrap:break-word; overflow-y:scroll;"></div>
-			</div>
-		</div> <!--end shoutbox-->
-		
 		<!-- viewer -->
-		<div class="well col-xs-9 pull-left" style="text-align:center; background:#F8FFF8;">
+		<div class="well col-xs-12 pull-left" style="text-align:center; background:#F8FFF8;">
 			<div id="files"></div>
 		</div>	<!-- end viewer -->
 		
 		<script>
-			<!-- shoutbox ajax refresh chat -->
-			$(document).ready(function refresh(){
-				$.get('/getchats').done(function(response){
-					$('#chats').html(response);
-				});
-				setTimeout(refresh, 1500);
-			});
-			
-			<!-- shoutbox messages -->
-			$('.shoutbox').on('click', '.go', function(){
-				if(!$('#chatAuthor').val()){
-					var tempAuthor = "Name" + (Math.floor(Math.random()*10000));
-					$('#chatAuthor').val(tempAuthor);
-					var author = $('#chatAuthor').val();
-				}
-				else{
-					var author = $('#chatAuthor').val();
-				}
-				var content = $('#chatText').val();
-				var question = $('input[name=question]:checked').val();
-				$.post('/getchats', {content:content, author:author, question:question}).done(function(response){
-					$('#chats').html(response);
-				});
-				$('#chatText').val("");
-				return false
-			});
-			
 			<!-- search file -->
 			$('.searchButton').click(function(){
 				var input = $('#modcode').val();

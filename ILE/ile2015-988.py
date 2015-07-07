@@ -7,7 +7,7 @@ from datetime import timedelta
 
 from google.appengine.ext import ndb
 from urlparse import urlparse
-from google.appengine.api import memcache
+from google.appengine.api import users
 
 
 jinja_environment = jinja2.Environment(
@@ -18,20 +18,40 @@ class BaseHandler(webapp2.RequestHandler):
 		#Respond to the request by rendering the template
 		template = jinja_environment.get_template(template_name)
 		self.response.out.write(template.render(template_values))
-			
+
 class HomePage(BaseHandler):
-    # Handler for the home page.
 	def get(self):
-		self.generate('home.html', {})
+		self.generate('home.html')
 		
+class HomePageUser(BaseHandler):
+	def get(self):
+		user = users.get_current_user()
+		if user:  # signed in already
+			id = users.get_current_user().email().split("@")
+			template_values = {
+				'user_mail': id[0],
+				'logout': users.create_logout_url(self.request.host_url),
+			}
+			self.generate('homeuser.html', template_values)
+		else:
+			self.redirect(self.request.host_url)
+
 class Files(ndb.Model):
 	modCode = ndb.StringProperty()
 	description = ndb.TextProperty()
 	fileUrl = ndb.StringProperty()
 	date = ndb.DateTimeProperty()
+	uploadedBy = ndb.UserProperty()
 	
 class Upload(BaseHandler):
 	def get(self, template_values={}):
+		user = users.get_current_user()
+		if user:  # signed in already
+			id = users.get_current_user().email().split("@")
+			template_values.update({
+				'user_mail': id[0],
+				'logout': users.create_logout_url(self.request.host_url),
+			})
 		self.generate('upload.html', template_values)
 
 	def post(self):
@@ -56,6 +76,9 @@ class Upload(BaseHandler):
 			
 		#Add 8 hours to UTC time for our timezone(GMT+8)
 		file.date = datetime.datetime.now() + datetime.timedelta(hours=8)
+		user = users.get_current_user()
+		if user:  # signed in already
+			file.uploadedBy = users.get_current_user()
 		
 		# No error case
 		if error == '':
@@ -136,6 +159,7 @@ class ViewHandler(BaseHandler):
 		
 app = webapp2.WSGIApplication([
     ('/', HomePage),
+	('/home', HomePageUser),
 	('/upload', Upload),
 	('/getchats', ChatsRequestHandler),
 	('/getfiles', SearchHandler),
