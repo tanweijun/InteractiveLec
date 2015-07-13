@@ -24,7 +24,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Interactive Lecture Environment</a>
+					<div class="navbar-brand">Interactive Lecture Environment</div>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -34,7 +34,7 @@
 						<li><a href="/upload">Upload</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<p class="navbar-text navbar-right">Welcome, {{ user_mail }}!<a href="{{logout}}" class="navbar-link"><span style="margin: 15px;">Logout</span></a></p>
+						<p class="navbar-text navbar-right">Welcome, {{ nickname }}!<a href="{{logout}}" class="navbar-link"><span style="margin: 15px;">Logout</span></a></p>
 					</ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-fluid -->
@@ -68,7 +68,7 @@
 						</div>
 						<div class="form-group">					
 							<label class="sr-only" for="chatAuthor">Name</label>
-							<input class="form-control" name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name" value="{{ user_mail }}" readonly>
+							<input class="form-control" name="name" type="text" id="chatAuthor" style="width:80%" placeholder="Name" value="{{ nickname }}" readonly>
 							<div class="form-inline">
 								<label class="sr-only" for="chatText">Message</label>
 								<input class="form-control" name="content" type="text" id="chatText" style="width:80%" placeholder="Message">

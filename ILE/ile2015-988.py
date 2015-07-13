@@ -27,9 +27,9 @@ class HomePageUser(BaseHandler):
 	def get(self):
 		user = users.get_current_user()
 		if user:  # signed in already
-			id = users.get_current_user().email().split("@")
+			nickname = users.get_current_user().nickname()
 			template_values = {
-				'user_mail': id[0],
+				'nickname': nickname,
 				'logout': users.create_logout_url(self.request.host_url),
 			}
 			self.generate('homeuser.html', template_values)
@@ -47,9 +47,9 @@ class Upload(BaseHandler):
 	def get(self, template_values={}):
 		user = users.get_current_user()
 		if user:  # signed in already
-			id = users.get_current_user().email().split("@")
+			nickname = users.get_current_user().nickname()
 			template_values.update({
-				'user_mail': id[0],
+				'nickname': nickname,
 				'logout': users.create_logout_url(self.request.host_url),
 			})
 		self.generate('upload.html', template_values)
