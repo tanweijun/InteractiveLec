@@ -108,7 +108,7 @@
 				}
 				var content = $('#chatText').val();
 				var question = $('input[name=question]:checked').val();
-				$.post('/getchats', {content:content, author:author, question:question}).done(function(response){
+				$.post('/getchats', {content:content, question:question}).done(function(response){
 					$('#chats').html(response);
 				});
 				$('#chatText').val("");

@@ -118,7 +118,7 @@ class ChatsRequestHandler(BaseHandler):
 	def post(self):
 		chatLog = ChatLog()
 		chatLog.content = self.request.get('content')
-		chatLog.author = self.request.get('author')
+		chatLog.author = users.get_current_user().nickname()
 		chatLog.question = self.request.get('question')
 		#Add 8 hours to UTC time for our timezone(GMT+8)
 		chatLog.date = datetime.datetime.now() + datetime.timedelta(hours=8)
