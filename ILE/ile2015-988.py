@@ -62,13 +62,13 @@ class Upload(BaseHandler):
 		
 		try:
 			file.modCode = self.request.get('modCode').upper()
-			if not re.match("^[A-Za-z0-9_]+$", file.modCode):
+			if not re.match("^[A-Za-z0-9]+$", file.modCode):
 				error = error + 'Error: Special characters not allowed in module code. '
 		except Exception, e:
 			error = error + 'Error: Problem with Module Code. '
 		try:
 			file.description = self.request.get('desc')
-			if not re.match("^[A-Za-z0-9.,_-]*$", file.description):
+			if not re.match("^[\w+\s\w+.,]*$", file.description):
 				error = error + 'Error: Special characters not allowed in file description. '
 		except Exception, e:
 			error = error + 'Error: Problem with file Description. '
