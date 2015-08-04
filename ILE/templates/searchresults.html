@@ -2,7 +2,7 @@
 <div class="table-responsive" style="max-height:675px">
 	<table class="table table-bordered table-hover" style="table-layout:fixed; word-wrap:break-word;">
 		<thead>
-			<tr><h3><strong>Module Code <span style="color:#5CBDFF">{{ modCode }}</span></strong></h3></tr>
+			<tr><h3><strong>Module Code <span style="color:#5CBDFF">{{ modCode|escape }}</span></strong></h3></tr>
 			<tr>
 				<th>File Description</th>
 				<th>File URL</th>
@@ -12,9 +12,9 @@
 		<tbody>
 			{% for results in files %}
 				<tr align="left">
-					<td>{{ results.description }}</td>
+					<td>{{ results.description|escape }}</td>
 					<td>
-						{{ results.fileUrl }}
+						{{ results.fileUrl|escape }}
 						</br>
 						<button type="submit" data-url="{{ results.fileUrl }}" class="view btn btn-info btn-sm" style="background:#5CBDFF">View</button>
 					</td>
