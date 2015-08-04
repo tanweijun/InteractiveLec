@@ -2,6 +2,7 @@ import urllib
 import webapp2
 import jinja2
 import os
+import re
 import datetime
 from datetime import timedelta
 
@@ -41,7 +42,7 @@ class Files(ndb.Model):
 	description = ndb.TextProperty()
 	fileUrl = ndb.StringProperty()
 	date = ndb.DateTimeProperty()
-	uploadedBy = ndb.UserProperty()
+	uploadedBy = ndb.StringProperty()
 	
 class Upload(BaseHandler):
 	def get(self, template_values={}):
@@ -58,30 +59,35 @@ class Upload(BaseHandler):
 		file = Files()
 		error = ''
 		success = ''
+		
 		try:
 			file.modCode = self.request.get('modCode').upper()
+			if not re.match("^[A-Za-z0-9_]+$", file.modCode):
+				error = error + 'Error: Special characters not allowed in module code. '
 		except Exception, e:
-			error = error + 'Error: Problem with Module Code.'
+			error = error + 'Error: Problem with Module Code. '
 		try:
 			file.description = self.request.get('desc')
+			if not re.match("^[A-Za-z0-9_]+$", file.description):
+				error = error + 'Error: Special characters not allowed in file description. '
 		except Exception, e:
-			error = error + 'Error: Problem with file Description.'
+			error = error + 'Error: Problem with file Description. '
 		try:
 			file.fileUrl = self.request.get('fileUrl')
 			# Check that file url scheme is http or https
 			if (urlparse(file.fileUrl).scheme != 'http') and (urlparse(file.fileUrl).scheme != 'https'):
-				error = error + 'Error: Url must be http or https.'
+				error = error + 'Error: Url must be http or https. '
 		except Exception, e:
-			error = error + 'Error: Problem with file URL.'
+			error = error + 'Error: Problem with file URL. '
 			
 		#Add 8 hours to UTC time for our timezone(GMT+8)
 		file.date = datetime.datetime.now() + datetime.timedelta(hours=8)
 		user = users.get_current_user()
 		if user:  # signed in already
-			file.uploadedBy = users.get_current_user()
+			file.uploadedBy = users.get_current_user().email()
 		
 		# No error case
-		if error == '':
+		if error == '' and user:
 			file.put()
 			success = 'File uploaded successfully.'
 			template_values = {
