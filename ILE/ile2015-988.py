@@ -68,7 +68,7 @@ class Upload(BaseHandler):
 			error = error + 'Error: Problem with Module Code. '
 		try:
 			file.description = self.request.get('desc')
-			if not re.match("^[A-Za-z0-9_]+$", file.description):
+			if not re.match("^[A-Za-z0-9.,_-]*$", file.description):
 				error = error + 'Error: Special characters not allowed in file description. '
 		except Exception, e:
 			error = error + 'Error: Problem with file Description. '
