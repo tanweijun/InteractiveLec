@@ -42,7 +42,7 @@ class Files(ndb.Model):
 	description = ndb.TextProperty()
 	fileUrl = ndb.StringProperty()
 	date = ndb.DateTimeProperty()
-	uploadedBy = ndb.StringProperty()
+	uploadedBy = ndb.UserProperty()
 	
 class Upload(BaseHandler):
 	def get(self, template_values={}):
@@ -84,7 +84,7 @@ class Upload(BaseHandler):
 		file.date = datetime.datetime.now() + datetime.timedelta(hours=8)
 		user = users.get_current_user()
 		if user:  # signed in already
-			file.uploadedBy = users.get_current_user().email()
+			file.uploadedBy = users.get_current_user()
 		
 		# No error case
 		if error == '' and user:
