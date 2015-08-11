@@ -62,7 +62,7 @@ class Upload(BaseHandler):
 		
 		try:
 			file.modCode = self.request.get('modCode').upper()
-			if not re.match("^[A-Za-z0-9]+$", file.modCode):
+			if not re.match("^[\w+\s\w+]+$", file.modCode):
 				error = error + 'Error: Special characters not allowed in module code. '
 		except Exception, e:
 			error = error + 'Error: Problem with Module Code. '
